@@ -19,7 +19,11 @@
 
 #include "nvs.h"
 #include "nvs_flash.h"
-#include "protocol_examples_common.h"
+
+
+#include "OTA.h"
+
+
 
 #if CONFIG_EXAMPLE_CONNECT_WIFI
 #include "esp_wifi.h"
@@ -128,7 +132,7 @@ static void get_sha256_of_partitions(void)
     print_sha256(sha_256, "SHA-256 for current firmware: ");
 }
 
-void app_main(void)
+void ota_main(void)
 {
     // Initialize NVS.
     esp_err_t err = nvs_flash_init();

@@ -1,12 +1,58 @@
-# CODIGO OTA
+#CASO DE ESTUDIO
+
+Para este caso de estudio se implemento:
+
+    *Visual Studio Code (Herramienta de desarrollo)
+    *idf espressif (ide componentes y drives de la esp32)
+    *Libreria
+        -OTA `esp_https_ota`
+
+
+# LIBRERIA OTA
 
 El codigo base para configuración OTA se basa en las APIs del componente  `esp_https_ota`
 
+Para el desarrollo de la aplicación OTA se implemento de la siguiente manera
+
+Como codigo de ejemplo de utilizo el repositorio 'hello_world' de espressif en donde para lanzar el servidor se debieron realizar los siguientes pasos en una terminal
+
+    build
+    cd build
+    openssl req -x509 -newkey rsa:2048 -keyout ca_key.pem -out ca_cert.pem -days 365 -nodes
+        'Se ingresan los parametros solicitados'
+    openssl s_server -WWW -key ca_key.pem -cert ca_cert.pem -port 8070
+        'Lanzamos el servidor'
+    
+    Con lo anterior verificamos la creación del certificado 'ca_key.perm'
+    'ca_key.perm' este certificado se debera actualizar en el directorio .\server_certs del directorio principal de la esp
+
+Para compilar y ejecutar el codigo en la esp32:
+    cd ./OTA.C
+    idf.py menuconfig
+        Example Configuration
+            https://IPLOCALSERVER:8070/hello_world.bin
+            EJEMPLO 
+            https://192.168.10.13:8070/hello_world.bin
+            IP LOCAL SERVER SERA LA IP DEL PC QUE LANZARA EL SERVIDOR LOCAL
+             
+        Example Connection Configuratio
+            configurar WI-FI 
+                ssdi
+                password
+        
+    build / flash esp32 ethernet
+
+![Alt text](starting_ota.png)
 
 
+# LIBRERIA I2C
 
-
+Para el desarrollo del modulo de comunicacion i2c se implemento el driver del componente idf i2c en el cual se realiza la comunicacion 
+    master -> esp32
+    slave  -> extensor 24v
 
 ## Configuration
 
 Refer README.md in the parent directory for setup details
+
+https://github.com/espressif/esp-idf/blob/8fc8f3f47997aadba21facabc66004c1d22de181/examples/system/ota/README.md
