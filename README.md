@@ -51,6 +51,30 @@ Para el desarrollo del modulo de comunicacion i2c se implemento el driver del co
     master -> esp32
     slave  -> extensor 24v
 
+
+#LIBRERIA TWAI
+
+Modelo de conexion para TWAI para conexiones CAN 
+    ----------   ----------   --------------  
+   |  Master  | |  Slave   | | Listen Only  | 
+   |          | |          | |              | 
+   | TX    RX | | TX    RX | | TX    RX     | 
+    ----------   ----------   --------------  
+     |      |     |      |     |      |   
+     |      |     |      |     |      |   
+    ----------   ----------   ----------  
+   | D      R | | D      R | | D      R | 
+   |          | |          | |          | 
+   |  VP230   | |  VP230   | |  VP230   | 
+   |          | |          | |          | 
+   | H      L | | H      L | | H      L | 
+    ----------   ----------   ----------  
+     |      |     |      |     |      |   
+     |      |     |      |     |      |   
+  |--x------|-----x------|-----x------|--| H
+            |            |            |
+  |---------x------------x------------x--| L
+
 ## Configuration
 
 Refer README.md in the parent directory for setup details
