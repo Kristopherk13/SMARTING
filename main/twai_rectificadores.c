@@ -28,9 +28,9 @@
 
 #define NO_OF_ITERS                     3
 #define RX_TASK_PRIO                    9
-#define TX_GPIO_NUM                     CONFIG_EXAMPLE_TX_GPIO_NUM
-#define RX_GPIO_NUM                     CONFIG_EXAMPLE_RX_GPIO_NUM
-#define EXAMPLE_TAG                     "TWAI Listen Only"
+#define TX_GPIO_NUM                     GPIO_NUM_17
+#define RX_GPIO_NUM                     GPIO_NUM_16
+#define TAG_RECTIFICADOR                     "TWAI Listen"
 
 #define ID_MASTER_STOP_CMD              0x0A0
 #define ID_MASTER_START_CMD             0x0A1
@@ -65,22 +65,22 @@ static void twai_receive_task(void *arg)
         twai_message_t rx_msg;
         twai_receive(&rx_msg, portMAX_DELAY);
         if (rx_msg.identifier == ID_MASTER_PING) {
-            ESP_LOGI(EXAMPLE_TAG, "Received master ping");
+            ESP_LOGI(TAG_RECTIFICADOR, "Received master ping");
         } else if (rx_msg.identifier == ID_SLAVE_PING_RESP) {
-            ESP_LOGI(EXAMPLE_TAG, "Received slave ping response");
+            ESP_LOGI(TAG_RECTIFICADOR, "Received slave ping response");
         } else if (rx_msg.identifier == ID_MASTER_START_CMD) {
-            ESP_LOGI(EXAMPLE_TAG, "Received master start command");
+            ESP_LOGI(TAG_RECTIFICADOR, "Received master start command");
             start_cmd = true;
         } else if (rx_msg.identifier == ID_SLAVE_DATA) {
             uint32_t data = 0;
             for (int i = 0; i < rx_msg.data_length_code; i++) {
                 data |= (rx_msg.data[i] << (i * 8));
             }
-            ESP_LOGI(EXAMPLE_TAG, "Received data value %"PRIu32, data);
+            ESP_LOGI(TAG_RECTIFICADOR, "Received data value ");
         } else if (rx_msg.identifier == ID_MASTER_STOP_CMD) {
-            ESP_LOGI(EXAMPLE_TAG, "Received master stop command");
+            ESP_LOGI(TAG_RECTIFICADOR, "Received master stop command");
         } else if (rx_msg.identifier == ID_SLAVE_STOP_RESP) {
-            ESP_LOGI(EXAMPLE_TAG, "Received slave stop response");
+            ESP_LOGI(TAG_RECTIFICADOR, "Received slave stop response");
             stop_resp = true;
         }
         if (start_cmd && stop_resp) {
@@ -102,9 +102,9 @@ void twai_rectificadores_main(void)
 
     //Install and start TWAI driver
     ESP_ERROR_CHECK(twai_driver_install(&g_config, &t_config, &f_config));
-    ESP_LOGI(EXAMPLE_TAG, "Driver installed");
+    ESP_LOGI(TAG_RECTIFICADOR, "Driver installed");
     ESP_ERROR_CHECK(twai_start());
-    ESP_LOGI(EXAMPLE_TAG, "Driver started");
+    ESP_LOGI(TAG_RECTIFICADOR, "Driver started");
 
     xSemaphoreGive(rx_sem);                     //Start RX task
     vTaskDelay(pdMS_TO_TICKS(100));
@@ -112,9 +112,9 @@ void twai_rectificadores_main(void)
 
     //Stop and uninstall TWAI driver
     ESP_ERROR_CHECK(twai_stop());
-    ESP_LOGI(EXAMPLE_TAG, "Driver stopped");
+    ESP_LOGI(TAG_RECTIFICADOR, "Driver stopped");
     ESP_ERROR_CHECK(twai_driver_uninstall());
-    ESP_LOGI(EXAMPLE_TAG, "Driver uninstalled");
+    ESP_LOGI(TAG_RECTIFICADOR, "Driver uninstalled");
 
     //Cleanup
     vSemaphoreDelete(rx_sem);

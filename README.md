@@ -3,7 +3,7 @@
 Para este caso de estudio se implemento:
 
     *Visual Studio Code (Herramienta de desarrollo)
-    *idf espressif (ide componentes y drives de la esp32)
+    *idf espressif (ide componentes y drives de la esp32) 4.3.1
     *Libreria
         -OTA `esp_https_ota`
 
@@ -52,7 +52,7 @@ Para el desarrollo del modulo de comunicacion i2c se implemento el driver del co
     slave  -> extensor 24v
 
 
-# LIBRERIA TWAI (Modulo de comunicacion CAN)
+# LIBRERIA TWAI (Modulo de comunicacion CAN) VEHICULO
 
 Modelo de conexion para TWAI para conexiones CAN 
     ----------   ----------   --------------  
@@ -81,6 +81,8 @@ Configuraciones de pines de comunicacion
     #define TX_GPIO_NUM             GPIO_NUM_17
     #define RX_GPIO_NUM             GPIO_NUM_16
 
+Se configura el twai_filter_config_t ya que en este caso tenemos multiplies ID
+
 Creacion de tres tareas
     transmision 'twai_transmit_task' = envio de datos al esclavo    
     recepcion  'twai_receive_task' = escucha de datos desde esclavo 
@@ -94,7 +96,36 @@ Creacion de colas para envio de los datos y que no exista overflow ya que el mod
 
 Dichas tareas seran controladas a su vez por un semaforo en el cual no permitira la ejecucion de TX y RX simultaneamente
 
+# LIBRERIA TWAI (Modulo de comunicacion CAN) RECTIFICADORES Solo lectura
 
+Como en el componente anterior de espressif se uso nuevamente el modulo TWAI para comunicacion CAN 
+de solo lectura
+
+#define RX_TASK_PRIO                    9
+#define TX_GPIO_NUM                     GPIO_NUM_01
+#define RX_GPIO_NUM                     GPIO_NUM_03
+
+Con esta macro garantizamos que el master sera configurado en modo solo escucha
+    static const twai_general_config_t g_config = {.mode = TWAI_MODE_LISTEN_ONLY,
+                                                .tx_io = TX_GPIO_NUM, .rx_io = RX_GPIO_NUM,
+                                                .clkout_io = TWAI_IO_UNUSED, .bus_off_io = TWAI_IO_UNUSED,
+                                                .tx_queue_len = 0, .rx_queue_len = 5,
+                                                .alerts_enabled = TWAI_ALERT_NONE,
+                                                .clkout_divider = 0
+                                                };
+
+
+Configuramos nuevamente los GPIO de la esp32 ETHERNET
+Se instala driver
+    twai_driver_install(&g_config, &t_config, &f_config);
+Se inicializa driver
+    twai_start();
+Se detiene driver
+    twai_stop();
+Se desinstala driver
+    twai_driver_uninstall();  // El driver es desinstalado para que la memoria no le asigne espacio al mismo
+
+Con lo anterior es suficiente para preparar un dato enviarlo y recibirlo de maestro a esclavo
 
 ## Configuration
 
