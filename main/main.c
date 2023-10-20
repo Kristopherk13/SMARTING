@@ -21,18 +21,17 @@ void app_main()
         twai_rectificadores_main();
       break;
     case 4:
+        // Realizo una peticion a una plataforma para solcitar actualizacion del firmware por OTA
+        // get a plataforma trayendo un bool update = get result
         if(otaUpdate) {
          ota_main();
         }
       break;
     default:
-      // if nothing else matches, do the default
-      // default is optional
       break;
   }
 
 
-    // get a plataforma trayendo un bool update = get result
     
     
 
