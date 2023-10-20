@@ -2,11 +2,13 @@
 #include "i2c_simple_main.h"
 #include "twai.h"
 #include "twai_rectificadores.h"
-
+int conteo_ciclos = 0;
 
 void app_main()
 
 {
+    conteo_ciclos++;
+    
     int otaUpdate = 0;
     // get a plataforma trayendo un bool update = get result
     if(otaUpdate) {

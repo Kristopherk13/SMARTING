@@ -4,9 +4,20 @@ Para este caso de estudio se implemento:
 
     *Visual Studio Code (Herramienta de desarrollo)
     *idf espressif (ide componentes y drives de la esp32) 4.3.1
+        Componentes
+            I2C
+            TWAI (CAN)
+            OTA
     *Libreria
         -OTA `esp_https_ota`
+    *Altium (Para el Diseño del esquematico)
 
+Ubicacion de archivos anexos
+Directorio
+    /schematic
+    Se encuentra el pdf como el archivo de altium para visualizar el esquematico
+    /resources
+    Se encuentra la imagen de la arquitectura correspondiente a la comiunicacion a los modulos implementados en este caso
 
 # LIBRERIA OTA
 
@@ -50,6 +61,22 @@ Para compilar y ejecutar el codigo en la esp32:
 Para el desarrollo del modulo de comunicacion i2c se implemento el driver del componente idf i2c en el cual se realiza la comunicacion 
     master -> esp32
     slave  -> extensor 24v
+
+Para este ejemplo se implemento la configuracion del componente en modo lectura y escritura desde Maestro
+
+Por motivos de configuracion y practicidad en el ejercicio comente el modulo de escritura al esclavo por compatibilidad en las librerias.
+
+Se configuran los pines 
+#define I2C_SLAVE_SCL_IO GPIO_NUM_22                
+#define I2C_SLAVE_SDA_IO GPIO_NUM_21   
+
+Son los pines mas importantes para la configuracion.
+tambien se configura
+
+La direccion del dispositivo que se quira leer, para eso se debe remitir al DATASHEET correspondiente
+#define SENSOR_ADDR 0x68   
+Mensaje que desea ser respondido en este caso se configura con los bits 0x75 para que responda predeterminadamente con "WHO AM I"
+#define CMD_START 0x75 
 
 
 # LIBRERIA TWAI (Modulo de comunicacion CAN) VEHICULO
