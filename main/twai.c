@@ -51,7 +51,6 @@ typedef enum {
     TX_SEND_STOP_CMD,
     TX_TASK_EXIT,
 } tx_task_action_t;
-
 typedef enum {
     RX_RECEIVE_PING_RESP,
     RX_RECEIVE_DATA,

@@ -52,7 +52,7 @@ Para el desarrollo del modulo de comunicacion i2c se implemento el driver del co
     slave  -> extensor 24v
 
 
-#LIBRERIA TWAI
+# LIBRERIA TWAI (Modulo de comunicacion CAN)
 
 Modelo de conexion para TWAI para conexiones CAN 
     ----------   ----------   --------------  
@@ -74,6 +74,21 @@ Modelo de conexion para TWAI para conexiones CAN
   |--x------|-----x------|-----x------|--| H
             |            |            |
   |---------x------------x------------x--| L
+
+Para el modulo CAN se implemento el componente twai de espressif en el cual se usa de la siguiente manera
+
+Configuraciones de pines de comunicacion 
+    #define TX_GPIO_NUM             GPIO_NUM_17
+    #define RX_GPIO_NUM             GPIO_NUM_16
+
+Creacion de tres tareas
+    transmision 'twai_transmit_task' = envio de datos al esclavo    
+    recepcion  'twai_receive_task' = escucha de datos desde esclavo 
+    control  'twai_control_task' = control de inicializacion de driver para enviar comnados al esclavo
+
+Dichas tareas seran controladas a su vez por un semaforo en el cual no permitira la ejecucion de TX y RX simultaneamente
+
+
 
 ## Configuration
 
