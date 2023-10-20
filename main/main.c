@@ -10,7 +10,7 @@ void app_main()
     if(otaUpdate) {
         ota_main();
     }
-    i2c_main();
-    twai_main();
+    i2c_main(); // Modulo de comunicacion i2c
+    twai_main(); // Modulo de comunicacion CAN
 
 }
