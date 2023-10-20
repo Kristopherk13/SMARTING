@@ -25,8 +25,7 @@
 #include "esp_log.h"
 #include "driver/twai.h"
 
-/* --------------------- Definitions and static variables ------------------ */
-//Example Configuration
+// Modulo CAN para comunicacion con vehiculo
 #define PING_PERIOD_MS          250
 #define NO_OF_DATA_MSGS         50
 #define NO_OF_ITERS             3

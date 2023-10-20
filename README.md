@@ -86,6 +86,12 @@ Creacion de tres tareas
     recepcion  'twai_receive_task' = escucha de datos desde esclavo 
     control  'twai_control_task' = control de inicializacion de driver para enviar comnados al esclavo
 
+Creacion de colas para envio de los datos y que no exista overflow ya que el modulo Can posee la trama de la siguiente manera:
+
+ * BITS ID 29 u 11  trama extendida / trama estándar : determina la prioridad del mensaje
+ * Codigo para Datos: entre 0 y 8 para indicar solicitud o envio de datos
+ * 8 bytes de datos para un marco de datos (Deebe ser igual al codigo de datos).
+
 Dichas tareas seran controladas a su vez por un semaforo en el cual no permitira la ejecucion de TX y RX simultaneamente
 
 
